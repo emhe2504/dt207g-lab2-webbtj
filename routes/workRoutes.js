@@ -25,7 +25,7 @@ router.get("/:id", (req, res) => {
 
         //Hämta specifikt arbete (efter id)
         const work = db.prepare("SELECT * FROM works WHERE id = ?").get(req.params.id);
-        if(!work) return res.status(404).json({ error: "Not found"});
+        if(!work) return res.status(404).json({ error: "Not found"});       //400 = felaktigt input
     } catch (error) {
         //Error
         res.status(500).json({ message: "Could not get work" });
@@ -33,7 +33,22 @@ router.get("/:id", (req, res) => {
 
 })
 
+router.post("/", (req, res) => {
+    const { companyname, jobtitle, location, startdate, enddate, description } = req.body;
 
+    //HÄR SKA INPUT KONTROLLER GÖRAS SEN!
+
+    const insert = db.prepare(`
+        INSERT INTO works (companyname, jobtitle, location, startdate, enddate, description) VALUES (?, ?, ?, ?, ?, ?)`);   //Förhindra sql-injection
+
+        //...req.body (spread operator) - typ.. ta alla värden i req.body, sprid ut här
+        try {
+            const result = insert.run(companyname, jobtitle, location, startdate, enddate, description);
+            res.status(201).json({ id: result.lastInsertRowid, ...req.body});      //201 = created
+        }catch (error) {
+            res.status(500).json({ message: "Could not insert work"});              //500 = server error
+        }
+})
 
 
 
