@@ -51,6 +51,11 @@ router.post("/", (req, res) => {
 })
 
 
+//Radera efter id
+router.delete("/:id", (req, res) => {
+    const result = db.prepare("DELETE FROM books WHERE id = ?").run(req.params.id);
+    res.json({ message: "Deleted" });
+})
 
 
 
