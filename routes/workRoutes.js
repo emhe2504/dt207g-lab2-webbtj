@@ -26,6 +26,8 @@ router.get("/:id", (req, res) => {
         //Hämta specifikt arbete (efter id)
         const work = db.prepare("SELECT * FROM works WHERE id = ?").get(req.params.id);
         if(!work) return res.status(404).json({ error: "Not found"});       //400 = felaktigt input
+
+        res.json(work);
     } catch (error) {
         //Error
         res.status(500).json({ message: "Could not get work" });
@@ -34,7 +36,9 @@ router.get("/:id", (req, res) => {
 })
 
 router.post("/", (req, res) => {
+    
     const { companyname, jobtitle, location, startdate, enddate, description } = req.body;
+
 
     //HÄR SKA INPUT KONTROLLER GÖRAS SEN!
 
@@ -53,7 +57,7 @@ router.post("/", (req, res) => {
 
 //Radera efter id
 router.delete("/:id", (req, res) => {
-    const result = db.prepare("DELETE FROM books WHERE id = ?").run(req.params.id);
+    const result = db.prepare("DELETE FROM works WHERE id = ?").run(req.params.id);
     res.json({ message: "Deleted" });
 })
 
