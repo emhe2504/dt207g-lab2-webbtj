@@ -39,7 +39,7 @@ router.post("/", (req, res) => {
     
     const { companyname, jobtitle, location, startdate, enddate, description } = req.body;
 
-    //Input kontroller
+    //För säkerhet, input kontroll (utöver den i frontend)
 
     if (!companyname || !jobtitle || !location || !startdate || !enddate || !description) {
        return res.status(400).json( {Message: `Alla fält måste vara ifyllda!` });
@@ -62,6 +62,8 @@ router.post("/", (req, res) => {
 router.delete("/:id", (req, res) => {
     const result = db.prepare("DELETE FROM works WHERE id = ?").run(req.params.id);
     res.json({ message: "Deleted" });
+
+    //GÖR ÅTERKOPPLING PÅ RADERA
 })
 
 
