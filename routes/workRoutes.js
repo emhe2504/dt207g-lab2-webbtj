@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
         res.json(works);
     } catch (error) {
         //Error
-        res.status(500).json({ message: "Could not get works" });
+        res.status(500).json({ Message: "Could not get works" });
     }
 })
 
@@ -30,7 +30,7 @@ router.get("/:id", (req, res) => {
         res.json(work);
     } catch (error) {
         //Error
-        res.status(500).json({ message: "Could not get work" });
+        res.status(500).json({ Message: "Could not get work" });
     }
 
 })
@@ -39,8 +39,11 @@ router.post("/", (req, res) => {
     
     const { companyname, jobtitle, location, startdate, enddate, description } = req.body;
 
+    //Input kontroller
 
-    //HÄR SKA INPUT KONTROLLER GÖRAS SEN!
+    if (!companyname || !jobtitle || !location || !startdate || !enddate || !description) {
+       return res.status(400).json( {Message: `Alla fält måste vara ifyllda!` });
+    }
 
     const insert = db.prepare(`
         INSERT INTO works (companyname, jobtitle, location, startdate, enddate, description) VALUES (?, ?, ?, ?, ?, ?)`);   //Förhindra sql-injection
