@@ -57,13 +57,22 @@ router.post("/", (req, res) => {
         }
 })
 
+router.put("/:id", (req, res) => {
+
+    const { companyname, jobtitle, location, startdate, enddate, description } = req.body;
+
+    const update = db.prepare(`
+        UPDATE works set companyname = ?, jobtitle = ?, location = ?, startdate = ?, enddate = ?, description = ? where id = ?`);   //Update query
+
+        update.run(companyname, jobtitle, location, startdate, enddate, description, req.params.id); //req.params.id = parameter i sökväg, t ex. "10"
+        res.status(201).json({ message: "Updated work successfully!" });
+})
+
 
 //Radera efter id
 router.delete("/:id", (req, res) => {
-    const result = db.prepare("DELETE FROM works WHERE id = ?").run(req.params.id);
-    res.json({ message: "Deleted" });
-
-    //GÖR ÅTERKOPPLING PÅ RADERA
+    db.prepare("DELETE FROM works WHERE id = ?").run(req.params.id); 
+    res.json({ message: "Deleted work successfully!" });
 })
 
 
