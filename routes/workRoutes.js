@@ -68,6 +68,20 @@ router.post("/", (req, res) => {
 router.put("/:id", (req, res) => {
 
     const { companyname, jobtitle, location, startdate, enddate, description } = req.body;
+    const errors = [];
+
+    //Input kontroller även i put
+
+    if (!companyname) { errors.push(`Fyll i Företagsnamn`); } 
+    if (!jobtitle) { errors.push(`Fyll i Arbetstitel`); }
+    if (!location) { errors.push(`Fyll i Arbetets plats`); }
+    if (!startdate) { errors.push(`Fyll i Startdatum`); }
+    if (!enddate) { errors.push(`Fyll i Slutdatum`); }
+    if (!description) { errors.push(`Fyll i Beskrivning`); }
+
+    if (errors.length > 0) {
+        return res.status(400).json( {Message: errors });
+    }
 
     const update = db.prepare(`
         UPDATE works set companyname = ?, jobtitle = ?, location = ?, startdate = ?, enddate = ?, description = ? where id = ?`);   //Update query
