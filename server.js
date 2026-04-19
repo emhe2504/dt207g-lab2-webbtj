@@ -15,6 +15,11 @@ app.use(cors());    //Tillåt cross-origin
 app.use(express.json());    //Parsa JSON-body
 
 //Routes
+app.get("/", (req, res) => {
+  res.json({
+    message: "API is running"
+  });
+});
 app.use("/works", workRoutes);
 
 //Starta servern
