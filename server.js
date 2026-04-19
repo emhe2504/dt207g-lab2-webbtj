@@ -2,6 +2,7 @@
 //Importera paket
 const express = require("express");
 const cors = require("cors");
+const port = process.env.PORT || 5000;
 
 //Läsa in routes
 const workRoutes = require("./routes/workRoutes");
@@ -17,4 +18,6 @@ app.use(express.json());    //Parsa JSON-body
 app.use("/works", workRoutes);
 
 //Starta servern
-app.listen(5000, () => console.log("Server started at port 5000"));
+app.listen(port, () => {
+  console.log("Server running on port " + port);
+});
