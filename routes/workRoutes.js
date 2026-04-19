@@ -53,6 +53,7 @@ router.post("/", (req, res) => {
         return res.status(400).json({ Message: errors });
     }
 
+    //Lägga till work
     const insert = db.prepare(`
         INSERT INTO works (companyname, jobtitle, location, startdate, enddate, description) VALUES (?, ?, ?, ?, ?, ?)`);   //Förhindra sql-injection
 
@@ -83,6 +84,7 @@ router.put("/:id", (req, res) => {
         return res.status(400).json({ Message: errors });
     }
 
+    //Uppdatera befintlig work utifrån req.params.id
     const update = db.prepare(`
         UPDATE works set companyname = ?, jobtitle = ?, location = ?, startdate = ?, enddate = ?, description = ? where id = ?`);   //Update query
 
@@ -96,7 +98,7 @@ router.delete("/:id", (req, res) => {
     try {
         //Result returnerar object med changes, om angivet id inte finns, changes === 0
         const result = db.prepare("DELETE FROM works WHERE id = ?").run(req.params.id);
-        
+
         if (result.changes === 0) {
             return res.status(404).json({ error: "Could not find id" });    //id finns inte
         } else {
