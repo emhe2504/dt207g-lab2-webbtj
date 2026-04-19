@@ -16,10 +16,9 @@ app.use(express.json());    //Parsa JSON-body
 
 //Routes
 app.get("/", (req, res) => {
-  res.json({
-    message: "API is running"
-  });
+  res.redirect("/works"); //works - startsida
 });
+
 app.use("/works", workRoutes);
 
 //Starta servern
